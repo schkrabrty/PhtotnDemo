@@ -16,11 +16,14 @@ public class XRSimpleNetworkInteractable : XRSimpleInteractable
     void Start()
     {
         ParticleSystem.SetActive(false);
+        color = this.gameObject.GetComponent<MeshRenderer>().material.color;
         PV = this.GetComponent<PhotonView>();
     }
 
     protected override void OnHoverEntered(HoverEnterEventArgs args)
     {
+        PV.RequestOwnership();
+
         if (PV.IsMine) // If the photon view component that I am interacting with, is owned by me
         {
             ParticleSystem.SetActive(true);
@@ -33,6 +36,8 @@ public class XRSimpleNetworkInteractable : XRSimpleInteractable
 
     protected override void OnHoverExited(HoverExitEventArgs args)
     {
+        PV.RequestOwnership();
+
         if (PV.IsMine) // If the photon view component that I am interacting with, is owned by me
         {
             ParticleSystem.SetActive(false);
@@ -47,7 +52,6 @@ public class XRSimpleNetworkInteractable : XRSimpleInteractable
     public void DuringHovering()
     {
         txtInfo.text = "";
-        color = this.gameObject.GetComponent<MeshRenderer>().material.color;
         this.gameObject.GetComponent<MeshRenderer>().material.color = Color.cyan;
     }
 
