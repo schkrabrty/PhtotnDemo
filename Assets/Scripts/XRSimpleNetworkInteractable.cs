@@ -44,10 +44,12 @@ public class XRSimpleNetworkInteractable : XRSimpleInteractable
     protected override void OnHoverExited(HoverExitEventArgs args)
     {
         PV.RequestOwnership();
-        ParticleSystem.SetActive(true);
 
         if (firstTouch == true)
+        {
+            ParticleSystem.SetActive(false);
             firstTouch = false;
+        }
 
         if (PV.IsMine) // If the photon view component that I am interacting with, is owned by me
         {
