@@ -11,6 +11,7 @@ public class XRSimpleNetworkInteractable : XRSimpleInteractable
     private Color color;
     public TMP_Text txtInfo;
     public GameObject ParticleSystem;
+    private bool firstTouch;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,12 @@ public class XRSimpleNetworkInteractable : XRSimpleInteractable
     protected override void OnHoverEntered(HoverEnterEventArgs args)
     {
         PV.RequestOwnership();
+
+        if (firstTouch == false)
+        {
+            ParticleSystem.SetActive(true);
+            firstTouch = true;
+        }
 
         if (PV.IsMine) // If the photon view component that I am interacting with, is owned by me
         {
@@ -37,6 +44,10 @@ public class XRSimpleNetworkInteractable : XRSimpleInteractable
     protected override void OnHoverExited(HoverExitEventArgs args)
     {
         PV.RequestOwnership();
+        ParticleSystem.SetActive(true);
+
+        if (firstTouch == true)
+            firstTouch = false;
 
         if (PV.IsMine) // If the photon view component that I am interacting with, is owned by me
         {
